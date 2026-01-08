@@ -1,4 +1,5 @@
 /* Site fonts and navigation styles */
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;700&family=Quicksand:wght@400&display=swap');
 :root{
   --nav-bg: #3b3a39;
   --nav-fg: #f0f0f0;
@@ -241,12 +242,12 @@ html,body{margin:0;padding:0;font-family: 'Manrope', system-ui, -apple-system, '
 }
 
 /* Timeline styles for experience page */
-.timeline{position:relative;max-width:1100px;margin:40px auto;padding:0 16px}
+.timeline{position:relative;max-width:1100px;margin:130px auto;padding:0 16px}
 /* darker center line */
 .timeline::before{content:'';position:absolute;left:50%;top:0;transform:translateX(-50%);width:6px;height:100%;background:var(--nav-bg)}
 
-.timeline-item{position:relative;margin:6px 0;padding:6px 12px;max-width:48%}
-.timeline-item .timeline-content{background:#fff;padding:18px;border-radius:8px;box-shadow:0 6px 18px rgba(0,0,0,0.06)}
+.timeline-item{position:relative;margin:-100px 0;padding:6px 12px;max-width:48%}
+.timeline-item .timeline-content{background:var(--nav-bg);padding:18px;border-radius:8px;box-shadow:0 6px 18px rgba(0,0,0,0.06)}
 
 .timeline-image{display:block;width:100%;max-height:220px;object-fit:cover;border-radius:4px;margin-top:14px}
 
@@ -256,22 +257,77 @@ html,body{margin:0;padding:0;font-family: 'Manrope', system-ui, -apple-system, '
 /* alternate sides */
 .timeline-item:nth-child(odd){left:0}
 .timeline-item:nth-child(odd)::after{right:-36px}
-.timeline-item:nth-child(odd) .timeline-date{right:-160px;text-align:left;z-index:2;background:#fff;padding:2px 8px;border-radius:4px}
+.timeline-item:nth-child(odd) .timeline-date{right:-160px;text-align:left;z-index:2;background:var(--nav-bg);padding:2px 8px;border-radius:4px}
 
 .timeline-item:nth-child(even){left:52%}
 .timeline-item:nth-child(even)::after{left:-36px}
-.timeline-item:nth-child(even) .timeline-date{left:-160px;text-align:right;z-index:2;background:#fff;padding:2px 8px;border-radius:4px}
+.timeline-item:nth-child(even) .timeline-date{left:-160px;text-align:right;z-index:2;background:var(--nav-bg);padding:2px 8px;border-radius:4px}
 
-.timeline-item h3{margin:0 0 6px 0;color:var(--nav-bg)}
-.timeline-item p{margin:0;color:rgba(59,58,57,0.9)}
+.timeline-item .company{margin:0 0 0px 0;color:var(--nav-fg);font-size:2rem;font-family:'Manrope', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; font-weight:1200}
+.timeline-item .position{margin:0 0 15px 0px;color:#d9d9d9;font-size:1.3rem;font-family:'Manrope', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; font-weight:500}
+.timeline-item p{margin:0 0 0 0;color:var(--nav-fg);font-size:0.85rem; font-family:'Quicksand', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;font-weight:200}
+.timeline-item ul{margin:0;padding-left:20px;color:var(--nav-fg);font-size:0.85rem; font-family:'Quicksand', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;font-weight:200}
+.timeline-item li{margin:4px 0;color:var(--nav-fg)}
 
 /* date on opposing side */
-.timeline-date{position:absolute;top:50%;transform:translateY(-50%);font-size:0.95rem;color:#666}
+.timeline-date{position:absolute;top:50%;transform:translateY(-50%);font-size:1rem;color:var(--nav-fg)}
 
 @media (max-width:900px){
-  .timeline::before{left:20px}
-  .timeline-item{max-width:100%;left:0;padding-left:56px;margin:8px 0}
-  .timeline-item::after{left:20px;right:auto;top:24px;transform:none;width:4px;height:30px}
-  .timeline-item .timeline-content{background:#fff}
-  .timeline-item .timeline-date{position:absolute;left:20px;top:8px;transform:none;text-align:left}
+  .timeline{margin:60px auto;padding:0 12px}
+  .timeline::before{left:20px;z-index:0}
+
+  /* Force single-column flow and place date on top for mobile */
+  .timeline-item,
+  .timeline-item:nth-child(odd),
+  .timeline-item:nth-child(even){
+    position:relative;
+    left:0 !important;
+    max-width:100%;
+    padding-left:40px;
+    margin:20px 0;
+    display:flex;
+    flex-direction:column-reverse; /* show date above content */
+    align-items:flex-start;
+  }
+
+  /* remove per-item vertical connectors so there is only one main line */
+  .timeline-item::after,
+  .timeline-item:nth-child(odd)::after,
+  .timeline-item:nth-child(even)::after{
+    display:none;
+  }
+
+  /* show card background same as desktop and keep text readable */
+  .timeline-item.timeline-content{background:var(--nav-bg);padding:18px;border-radius:8px;position:relative;z-index:1;color:var(--nav-fg);width:100%}
+
+  /* ensure date is placed above the card and visible for all items */
+  .timeline-item.timeline-date,
+  .timeline-item:nth-child(odd) .timeline-date,
+  .timeline-item:nth-child(even) .timeline-date{
+    position:relative; left:0; right:auto; top:0; transform:none; text-align:left; font-size:0.95rem; margin:0 0 10px 0; background:var(--nav-bg); color:var(--nav-fg); padding:6px 10px; border-radius:6px; display:inline-block; z-index:3;
+  }
+
+  /* short horizontal connector from the date pill to the main vertical line */
+  .timeline-item .timeline-date::before{
+    content:'';
+    position:absolute;
+    left:-36px; /* distance to reach the line */
+    top:50%;
+    transform:translateY(-50%);
+    width:36px;
+    height:4px;
+    background:var(--nav-bg);
+    border-radius:2px;
+    z-index:2;
+  }
+
+  /* Typography on mobile should match desktop */
+  .timeline-item.company{font-size:2rem;color:var(--nav-fg);font-weight:400}
+  .timeline-item.position{font-size:1.3rem;color:#d9d9d9;font-weight:300}
+  .timeline-item p{color:var(--nav-fg);font-size:0.85rem}
+  .timeline-image{max-height:200px;margin-top:12px}
+
+  /* Make sure first and last items have breathing room */
+  .timeline-item:first-child{margin-top:8px}
+  .timeline-item:last-child{margin-bottom:24px}
 }
