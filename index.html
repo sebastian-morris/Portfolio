@@ -1,41 +1,129 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Sebastian Morris | Portfolio</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home - Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://kit.fontawesome.com/f88ae50eda.js" crossorigin="anonymous"></script>
+
 </head>
 <body>
-    <header>
-        <h1>Sebastian Morris</h1>
-        <p>Engineering & Creative Portfolio</p>
-    </header>
+  <nav class="top-nav" role="navigation" aria-label="Main navigation">
+    <div class="container">
+      <a class="logo" href="index.html">Home</a>
+      <ul class="nav-links">
+        <li><a href="pages/about.html">About</a></li>
+        <li><a href="pages/experience.html">Work Experience</a></li>
+        <li><a href="pages/projects.html">Projects</a></li>
+        <li><a href="pages/education.html">Education</a></li>
+        <li><a href="pages/skills.html">Skillsets</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
 
-    <section id="about">
-        <h2>About Me</h2>
-        <p>
-            I am a student and engineer with experience in technical projects,
-            content creation, and digital work. This website showcases my work
-            over the years.
-        </p>
+  <main class="content">
+    <section class="hero">
+      <div class="hero-left">
+        <h1><span class="intro">Hello my name is</span> <span class="name">Sebastian Morris</span></h1>
+      </div>
+
+      <div class="hero-middle">
+        <p class="hero-cta">Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium reprehenderit quo nostrum odit rem illo ab neque nisi quis ad expedita, voluptas nihil ea, ratione accusamus temporibus sed sunt voluptatum?</p>
+        <a class="btn btn-primary" href="pages/about.html">Learn more about me</a>
+      </div>
+
+      <div class="hero-right">
+        <img class="headshot" src="images/Headshot.jpeg" alt="Headshot of Sebastian Morris">
+      </div>
     </section>
 
-    <section id="projects">
-        <h2>Projects</h2>
-        <ul>
-            <li>Project One – Short description</li>
-            <li>Project Two – Short description</li>
-            <li>Project Three – Short description</li>
-        </ul>
+    <section class="cards" aria-label="Highlights">
+      <div class="container cards-grid">
+        <article class="card">
+          <img src="images/Work.jpg" alt="Work Experience" class="card-image">
+          <h3>Work Experience</h3>
+          <p>Summary of roles and achievements. Learn about the teams and projects I contributed to.</p>
+          <a class="btn btn-primary" href="pages/experience.html">View Experience</a>
+        </article>
+
+        <article class="card">
+          <img src="images/IMG_5379.PNG" alt="Projects" class="card-image">
+          <h3>Projects</h3>
+          <p>Selected projects showcasing the technologies and outcomes I delivered.</p>
+          <a class="btn btn-primary" href="pages/projects.html">View Projects</a>
+        </article>
+
+        <article class="card">
+          <img src="images/Berkeley.jpg" alt="Education" class="card-image">
+          <h3>Education</h3>
+          <p>Academic background and certifications relevant to my professional experience.</p>
+          <a class="btn btn-primary" href="pages/education.html">View Education</a>
+        </article>
+
+        <article class="card">
+          <img src="images/IMG_4572.jpeg" alt="Skills" class="card-image">
+          <h3>Skillsets</h3>
+          <p>Core skills and tools I use day-to-day, from frameworks to workflows.</p>
+          <a class="btn btn-primary" href="pages/skills.html">View Skillsets</a>
+        </article>
+      </div>
     </section>
 
-    <section id="contact">
-        <h2>Contact</h2>
-        <p>Email: yourname@email.com</p>
-    </section>
+    <section id="contact" class="contact" aria-label="Contact">
+      <div class="container contact-inner">
+        <div class="contact-left">
+          <h2>Contact me</h2>
+          <p>If you'd like to work together or have any questions, feel free to reach out — I typically reply within a few business days.</p>
+          <br>
+          <ul class="contact-info">
+            <li><strong>Email:  </strong> <a href="mailto:sebastian.r.morris@gmail.com">Sebastian.R.Morris@gmail.com</a></li>
+            <li><strong>Phone:  </strong> <a href="tel:+8584149943">+1 (858)-414-9943</a></li>
+            <li><strong>Photography Website:  </strong> <a href="https://www.sebsproductions.com/" target="_blank">SebsProductions.com</a></li>
 
-    <footer>
-        <p>© 2025 Sebastian Morris</p>
-    </footer>
+          </ul>
+          <br>
+          <div class="social-links" aria-label="Social links">
+            <a class="social-link" href="https://linkedin.com/in/sebastian-morris-403538323" target="_blank" rel="noopener" aria-label="LinkedIn" title="LinkedIn">
+              <i class="fa-brands fa-linkedin" aria-hidden="true"></i>
+            </a>
+            <a class="social-link" href="https://github.com/sebastian-morris" target="_blank" rel="noopener" aria-label="GitHub" title="GitHub">
+              <i class="fa-brands fa-github" aria-hidden="true"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main> 
+
+  <script>
+    // Smooth-scroll to hash on page load (useful when linking from other pages)
+    document.addEventListener('DOMContentLoaded', function () {
+      if (location.hash) {
+        var id = location.hash.slice(1);
+        var el = document.getElementById(id);
+        if (el) setTimeout(function () { el.scrollIntoView({ behavior: 'smooth' }); }, 50);
+      }
+
+      // Intercept same-page hash links to animate scrolling
+      document.querySelectorAll('a[href^="#"]').forEach(function (link) {
+        link.addEventListener('click', function (e) {
+          var href = link.getAttribute('href');
+          if (!href || href === '#') return;
+          if (href.charAt(0) === '#') {
+            e.preventDefault();
+            var target = document.getElementById(href.slice(1));
+            if (target) {
+              target.scrollIntoView({ behavior: 'smooth' });
+              history.pushState(null, '', href);
+            }
+          }
+        });
+      });
+    });
+  </script>
 </body>
 </html>

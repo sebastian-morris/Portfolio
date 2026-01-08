@@ -1,31 +1,277 @@
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    line-height: 1.6;
+/* Site fonts and navigation styles */
+:root{
+  --nav-bg: #3b3a39;
+  --nav-fg: #f0f0f0;
+  --nav-height: 64px;
+  --page-bg: #f0f0f0;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;font-family: 'Manrope', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; color: #3b3a39; background:var(--page-bg); scroll-behavior: smooth;}
+
+.top-nav{
+  background: var(--nav-bg);
+  color: var(--nav-fg);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  height: var(--nav-height);
+  display:flex;
+  align-items:center;
+}
+.top-nav .container{
+  width:100%;
+  max-width:1100px;
+  margin:0 auto;
+  padding:0 16px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+.top-nav .logo{
+  color:var(--nav-fg);
+  text-decoration:none;
+  font-weight:700;
+  font-size:1.05rem;
+}
+.nav-links{list-style:none;margin:0;padding:0;display:flex;gap:22px;align-items:center;overflow-x:auto}
+.nav-links a{
+  color:var(--nav-fg);
+  text-decoration:none;
+  font-weight:700;
+  font-size:0.95rem;
+  white-space:nowrap;
+  padding:8px 12px;
+  border-radius:6px;
+  display:inline-block;
+  transition: background-color 180ms ease, color 180ms ease, transform 120ms ease;
 }
 
-header {
-    background: #222;
-    color: white;
-    padding: 40px;
-    text-align: center;
+/* Highlight with a box on hover and focus */
+.nav-links a:hover,
+.nav-links a:focus{
+  background: #5a5a5a;
+  color: var(--nav-fg);
+  transform: translateY(-1px);
+  outline: none;
 }
 
-section {
-    padding: 40px;
-    max-width: 900px;
-    margin: auto;
+/* Visible focus ring for keyboard users */
+.nav-links a:focus-visible{
+  box-shadow: 0 0 0 3px rgba(120,120,120,0.18);
+  border-radius:6px;
 }
 
-h2 {
-    border-bottom: 2px solid #ddd;
-    padding-bottom: 10px;
+/* Buttons (global) */
+.btn{display:inline-block;padding:10px 16px;border-radius:8px;text-decoration:none;font-weight:700;font-family:inherit}
+.btn-primary{background:var(--nav-bg);color:var(--nav-fg);border:1px solid rgba(255,255,255,0.06)}
+.btn-primary:hover{opacity:0.95;transform:translateY(-1px)}
+.btn-primary:focus{outline:3px solid rgba(59,58,57,0.18);outline-offset:2px}
+
+/* keep content visible below sticky nav */
+.content{padding:24px 16px;padding-top:24px}
+@media (min-width:768px){
+  .content{padding-top:36px}
 }
 
-footer {
-    background: #f4f4f4;
-    text-align: center;
-    padding: 20px;
-    margin-top: 40px;
+/* Hero layout and typography (left: title, middle: paragraph, right: headshot) */
+.hero{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  align-items:flex-start;
+  max-width:1100px;
+  margin:40px auto;
+  padding:0 8px;
+}
+.hero-left{flex:1}
+.hero-middle{flex:1;display:flex;flex-direction:column;align-items:flex-end;gap:8px;margin-top:8px}
+.hero-right{flex:0 0 260px;display:flex;align-items:center;justify-content:flex-end}
+
+.hero h1{margin:0;font-size:2rem;line-height:1.05;color:var(--nav-bg)}
+.hero h1 .intro{display:block;font-weight:300;font-size:1.1rem;color:rgba(59,58,57,0.72)}
+.hero h1 .name{font-weight:700;display:block;font-size:2rem}
+.hero .hero-cta{margin:0;max-width:360px;text-align:right;color:rgba(59,58,57,0.95)}
+
+.hero .headshot{width:100%;height:420px;object-fit:cover;border-radius:8px;box-shadow:0 6px 18px rgba(0,0,0,0.12)}
+
+/* Cards (highlights) */
+.cards{
+  background:var(--nav-bg);
+  padding:50px 0;
+  /* full-bleed background that spans the viewport edges */
+  position:relative;
+  left:50%;
+  right:50%;
+  margin-left:-50vw;
+  margin-right:-50vw;
+  width:100vw;
+}
+.cards-grid{display:grid;grid-template-columns:1fr;gap:18px;max-width:none;width:calc(100% - 120px);margin:0 60px;padding:0;box-sizing:border-box;align-items:stretch;position:relative}
+.card{background:#fff;border-radius:10px;padding:18px;display:flex;flex-direction:column;align-items:flex-start;gap:12px;box-shadow:0 8px 24px rgba(0,0,0,0.12);height:100%}
+.card-image{width:100%;height:130px;object-fit:cover;border-radius:6px;background:#e9e9e9}
+.card h3{margin:0;font-size:1.4rem;color:var(--nav-bg)}
+.card p{margin:0;color:rgba(59,58,57,0.9)}
+.card .btn{align-self:flex-start;margin-top:auto}
+
+@media (min-width:640px){
+  .cards-grid{grid-template-columns:repeat(2,1fr);padding:0 24px}
+}
+
+@media (min-width:1100px){
+  .cards-grid{grid-template-columns:repeat(4,1fr);padding:0 32px;gap:24px}
+}
+
+/* Contact section */
+.contact{background:var(--page-bg);padding:48px 0}
+.contact-inner{display:flex;flex-direction:column;gap:18px;max-width:1100px;margin:0 auto;padding:0 16px;align-items:flex-start}
+.contact-left h2{margin:0 0 8px 0;color:var(--nav-bg);font-size:2rem;line-height:1.05}
+.contact-left p{margin:0 0 12px 0;color:rgba(59,58,57,0.95);font-size:1.05rem}
+
+/* Contact info and social links */
+.contact-info{list-style:none;padding:0;margin:12px 0 16px 0}
+.contact-info li{margin-bottom:8px;font-size:1.2rem}
+.contact-info a{color:var(--nav-bg);text-decoration:none}
+.social-links{display:flex;gap:16px}
+.social-link{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:72px;
+  height:72px;
+  border-radius:12px;
+  text-decoration:none;
+  background:#fff;
+  color:var(--nav-bg);
+  font-size:24px;
+  border:none;
+  box-shadow:0 8px 20px rgba(0,0,0,0.08);
+  transition:transform 140ms ease, box-shadow 140ms ease, opacity 140ms ease;
+}
+.social-link i{line-height:1}
+.social-link:hover{transform:translateY(-6px);box-shadow:0 14px 30px rgba(0,0,0,0.14);opacity:0.98}
+.social-link:focus{outline:3px solid rgba(59,58,57,0.12);outline-offset:2px}
+
+@media (min-width:768px){
+  .social-link{width:88px;height:88px;font-size:28px;border-radius:14px}
+}
+
+@media (min-width:768px){
+  .contact-inner{flex-direction:row;justify-content:space-between;align-items:center}
+  .contact-left{flex:1}
+}
+
+@media (min-width:1100px){
+  .hero{flex-direction:row;align-items:center;justify-content:space-between;margin:56px auto;padding:0 16px;gap:32px}
+  .hero-left, .hero-middle{width:auto}
+  /* add extra breathing room between the paragraph and the photo */
+  .hero-middle{margin-right:48px}
+  .hero-right{position:static;flex:0 0 320px;display:flex;align-items:center;justify-content:flex-end}
+  .hero h1{font-size:2.2rem}
+  .hero h1 .intro{font-size:1.25rem}
+  .hero h1 .name{font-size:3.4rem}
+  .hero .hero-cta{text-align:right}
+  .hero .headshot{width:320px;height:520px}
+
+  /* 4-column layout for highlights */
+  .cards-grid{grid-template-columns:repeat(4,1fr)}
+  .card-image{height:200px}
+}
+@media (max-width:767px){
+  .hero{
+    padding:0 16px 24px 16px;
+    position:relative;
+    flex-direction:column;
+    /* reserve space on the right so the headshot doesn't overlap text */
+    padding-right:140px;
+  }
+
+  .hero-left,
+  .hero-middle{width:100%;position:relative;z-index:1}
+  .hero-middle{justify-content:flex-start;margin-top:4px}
+  .hero .hero-cta{text-align:left}
+
+  /* keep the headshot positioned to the right without moving in the flow */
+  .hero-right{
+    position:absolute;
+    right:12px;
+    top:12px;
+    width:110px;
+    display:flex;
+    align-items:flex-start;
+    justify-content:flex-end;
+    z-index:0;
+  }
+
+  .hero .headshot{width:110px;height:160px}
+  .card-image{height:140px}
+}
+
+/* Medium screens (tablet landscape / small laptops) — enlarge headshot */
+@media (min-width:768px) and (max-width:1099px){
+  .hero{
+    /* keep paragraph stacked under title but allow larger reserved space on the right */
+    flex-direction:column;
+    padding-right:340px;
+    position:relative;
+    padding-left:24px;
+    padding-top:100px; /* more top space so text sits lower */
+    padding-bottom:36px;
+  }
+
+  .hero-left,
+  .hero-middle{width:100%;position:relative;z-index:1}
+  .hero-middle{justify-content:flex-start;margin-top:4px}
+  .hero .hero-cta{text-align:left}
+  .hero h1 .intro{font-size:1.25rem}
+  .hero h1 .name{font-size:3.4rem}
+  .hero-right{
+    position:absolute;
+    right:24px;
+    top:50%; /* vertically center the headshot within the hero */
+    transform:translateY(-50%);
+    width:300px;
+    display:flex;
+    align-items:center;
+    justify-content:flex-end;
+  }
+
+  .hero .headshot{width:300px;height:480px}
+
+  .card-image{height:140px}
+}
+
+/* Timeline styles for experience page */
+.timeline{position:relative;max-width:1100px;margin:40px auto;padding:0 16px}
+/* darker center line */
+.timeline::before{content:'';position:absolute;left:50%;top:0;transform:translateX(-50%);width:6px;height:100%;background:var(--nav-bg)}
+
+.timeline-item{position:relative;margin:6px 0;padding:6px 12px;max-width:48%}
+.timeline-item .timeline-content{background:#fff;padding:18px;border-radius:8px;box-shadow:0 6px 18px rgba(0,0,0,0.06)}
+
+.timeline-image{display:block;width:100%;max-height:220px;object-fit:cover;border-radius:4px;margin-top:14px}
+
+/* replace dot with short horizontal connector line */
+.timeline-item::after{content:'';position:absolute;top:50%;transform:translateY(-50%);width:18px;height:3px;background:var(--nav-bg);border-radius:2px}
+
+/* alternate sides */
+.timeline-item:nth-child(odd){left:0}
+.timeline-item:nth-child(odd)::after{right:-36px}
+.timeline-item:nth-child(odd) .timeline-date{right:-160px;text-align:left;z-index:2;background:#fff;padding:2px 8px;border-radius:4px}
+
+.timeline-item:nth-child(even){left:52%}
+.timeline-item:nth-child(even)::after{left:-36px}
+.timeline-item:nth-child(even) .timeline-date{left:-160px;text-align:right;z-index:2;background:#fff;padding:2px 8px;border-radius:4px}
+
+.timeline-item h3{margin:0 0 6px 0;color:var(--nav-bg)}
+.timeline-item p{margin:0;color:rgba(59,58,57,0.9)}
+
+/* date on opposing side */
+.timeline-date{position:absolute;top:50%;transform:translateY(-50%);font-size:0.95rem;color:#666}
+
+@media (max-width:900px){
+  .timeline::before{left:20px}
+  .timeline-item{max-width:100%;left:0;padding-left:56px;margin:8px 0}
+  .timeline-item::after{left:20px;right:auto;top:24px;transform:none;width:4px;height:30px}
+  .timeline-item .timeline-content{background:#fff}
+  .timeline-item .timeline-date{position:absolute;left:20px;top:8px;transform:none;text-align:left}
 }
