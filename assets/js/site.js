@@ -51,7 +51,7 @@ const projects = [
     title: "Sony A7iii Shutter Replacement",
     year: 2024,
     slug: "sony-a7iii-shutter-replacement",
-    image: "assets/img/project-sony-a7iii.svg",
+    image: "assets/projects/sony-a7iii-shutter-replacement/hero.jpg",
     summary: "A precision repair project replacing a failed shutter assembly through careful disassembly and testing.",
     tools: ["Camera repair", "Electronics", "Precision tools", "Testing"]
   },
