@@ -129,6 +129,7 @@ function prepareRevealText() {
       const line = document.createElement("span");
       line.className = "reveal-line";
       line.textContent = chunk;
+      if (!/[\s ]$/.test(chunk)) line.appendChild(document.createTextNode(" "));
       element.appendChild(line);
     });
     element.dataset.revealReady = "true";
