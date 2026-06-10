@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Project grid for Sebastian Morris.">
+    <title>Projects | Sebastian Morris</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <script src="assets/js/site.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header">
+      <div class="nav-shell">
+        <div class="nav-spacer" aria-hidden="true"></div>
+        <nav class="site-nav" aria-label="Primary navigation">
+          <a href="index.html">Home</a>
+          <a href="experience.html">Experience</a>
+          <a href="projects.html" aria-current="page">Projects</a>
+          <a href="index.html#contact" class="nav-cta">Contact</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main">
+      <section class="page-hero">
+        <p class="eyebrow">Selected work</p>
+        <h1>Projects</h1>
+        <p class="lead reveal-text">A concise look at the work, experiments, and repairs that shaped my portfolio.</p>
+      </section>
+
+      <div class="project-toolbar">
+        <label for="project-sort">Sort projects</label>
+        <select id="project-sort" data-project-sort aria-label="Sort projects by date">
+          <option value="desc">Date descending</option>
+          <option value="asc">Date ascending</option>
+        </select>
+      </div>
+      <section class="project-grid" data-project-grid aria-label="Project list"></section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-shell">
+        <span>Sebastian Morris</span>
+        <span>Projects</span>
+      </div>
+    </footer>
+  </body>
+</html>

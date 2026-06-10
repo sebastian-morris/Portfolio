@@ -1,129 +1,165 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Home - Portfolio</title>
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link rel="stylesheet" href="styles.css">
-  <script src="https://kit.fontawesome.com/f88ae50eda.js" crossorigin="anonymous"></script>
-
-</head>
-<body>
-  <nav class="top-nav" role="navigation" aria-label="Main navigation">
-    <div class="container">
-      <a class="logo" href="index.html">Home</a>
-      <ul class="nav-links">
-        <li><a href="pages/about.html">About</a></li>
-        <li><a href="pages/experience.html">Work Experience</a></li>
-        <li><a href="pages/projects.html">Projects</a></li>
-        <li><a href="pages/education.html">Education</a></li>
-        <li><a href="pages/skills.html">Skillsets</a></li>
-        <li><a href="#contact">Contact</a></li>
-      </ul>
-    </div>
-  </nav>
-
-  <main class="content">
-    <section class="hero">
-      <div class="hero-left">
-        <h1><span class="intro">Hello my name is</span> <span class="name">Sebastian Morris</span></h1>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Portfolio of Sebastian Morris: vehicle dynamics, automotive forensics, fabrication, photography, CAD, and hands-on mechanical projects.">
+    <title>Sebastian Morris | Portfolio</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <script src="assets/js/site.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header">
+      <div class="nav-shell">
+        <div class="nav-spacer" aria-hidden="true"></div>
+        <nav class="site-nav" aria-label="Primary navigation">
+          <a href="index.html" aria-current="page">Home</a>
+          <a href="experience.html">Experience</a>
+          <a href="projects.html">Projects</a>
+          <a href="#contact" class="nav-cta">Contact</a>
+        </nav>
       </div>
+    </header>
 
-      <div class="hero-middle">
-        <p class="hero-cta">Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium reprehenderit quo nostrum odit rem illo ab neque nisi quis ad expedita, voluptas nihil ea, ratione accusamus temporibus sed sunt voluptatum?</p>
-        <a class="btn btn-primary" href="pages/about.html">Learn more about me</a>
-      </div>
-
-      <div class="hero-right">
-        <img class="headshot" src="images/Headshot.jpeg" alt="Headshot of Sebastian Morris">
-      </div>
-    </section>
-
-    <section class="cards" aria-label="Highlights">
-      <div class="container cards-grid">
-        <article class="card">
-          <img src="images/Work.jpg" alt="Work Experience" class="card-image">
-          <h3>Work Experience</h3>
-          <p>Summary of roles and achievements. Learn about the teams and projects I contributed to.</p>
-          <a class="btn btn-primary" href="pages/experience.html">View Experience</a>
-        </article>
-
-        <article class="card">
-          <img src="images/IMG_5379.PNG" alt="Projects" class="card-image">
-          <h3>Projects</h3>
-          <p>Selected projects showcasing the technologies and outcomes I delivered.</p>
-          <a class="btn btn-primary" href="pages/projects.html">View Projects</a>
-        </article>
-
-        <article class="card">
-          <img src="images/Berkeley.jpg" alt="Education" class="card-image">
-          <h3>Education</h3>
-          <p>Academic background and certifications relevant to my professional experience.</p>
-          <a class="btn btn-primary" href="pages/education.html">View Education</a>
-        </article>
-
-        <article class="card">
-          <img src="images/IMG_4572.jpeg" alt="Skills" class="card-image">
-          <h3>Skillsets</h3>
-          <p>Core skills and tools I use day-to-day, from frameworks to workflows.</p>
-          <a class="btn btn-primary" href="pages/skills.html">View Skillsets</a>
-        </article>
-      </div>
-    </section>
-
-    <section id="contact" class="contact" aria-label="Contact">
-      <div class="container contact-inner">
-        <div class="contact-left">
-          <h2>Contact me</h2>
-          <p>If you'd like to work together or have any questions, feel free to reach out — I typically reply within a few business days.</p>
-          <br>
-          <ul class="contact-info">
-            <li><strong>Email:  </strong> <a href="mailto:sebastian.r.morris@gmail.com">Sebastian.R.Morris@gmail.com</a></li>
-            <li><strong>Phone:  </strong> <a href="tel:+8584149943">+1 (858)-414-9943</a></li>
-            <li><strong>Photography Website:  </strong> <a href="https://www.sebsproductions.com/" target="_blank">SebsProductions.com</a></li>
-
-          </ul>
-          <br>
-          <div class="social-links" aria-label="Social links">
-            <a class="social-link" href="https://linkedin.com/in/sebastian-morris-403538323" target="_blank" rel="noopener" aria-label="LinkedIn" title="LinkedIn">
-              <i class="fa-brands fa-linkedin" aria-hidden="true"></i>
-            </a>
-            <a class="social-link" href="https://github.com/sebastian-morris" target="_blank" rel="noopener" aria-label="GitHub" title="GitHub">
-              <i class="fa-brands fa-github" aria-hidden="true"></i>
-            </a>
+    <main id="main">
+      <section class="hero" aria-labelledby="home-title">
+        <div class="hero-grid">
+          <div class="hero-copy">
+            <p class="eyebrow fade-in">Engineering / Design / Media Production</p>
+            <h1 id="home-title" class="fade-in delay-1">Sebastian Morris</h1>
+            <p class="lead fade-in delay-1">Here is a collection of my life's experience. Feel free to explore!</p>
+            <div class="hero-actions fade-in delay-2">
+              <a class="button" href="projects.html">View Projects</a>
+              <a class="button secondary" href="experience.html">Experience</a>
+            </div>
+          </div>
+          <div class="portrait-frame fade-in delay-2" role="img" aria-label="Portrait placeholder for Sebastian Morris">
+            <div class="portrait-label">Automotive / Design / Media</div>
           </div>
         </div>
+      </section>
+
+      <section class="section intro-grid" aria-labelledby="profile-title">
+        <div>
+          <p class="eyebrow">Profile</p>
+          <h2 id="profile-title">Work shaped by engineering, fabrication, and image-making.</h2>
+        </div>
+        <div>
+          <p class="lead reveal-text">I move between vehicle dynamics, automotive forensics, fabrication, CAD, and media production with a hands-on approach grounded in observation and follow-through. The work is technical, creative, and built to hold up in the real world.</p>
+        </div>
+      </section>
+
+      <section class="section" aria-label="Portfolio metrics">
+        <div class="metric-row">
+          <a class="metric" href="projects.html" aria-label="8 Project studies — view projects">
+            <strong>8</strong><span>Project studies</span>
+          </a>
+          <a class="metric" href="experience.html" aria-label="5 Experiences — view experience">
+            <strong>5</strong><span>Experiences</span>
+          </a>
+        </div>
+      </section>
+
+      <section class="section intro-grid" aria-labelledby="capabilities-title">
+        <div>
+          <p class="eyebrow">Capabilities</p>
+          <h2 id="capabilities-title">Engineering, fabrication, media.</h2>
+        </div>
+        <ul class="capability-list">
+          <li>
+            <div>
+              <span class="capability-name">Vehicle dynamics</span>
+              <small class="capability-meta">Testing / validation / modeling</small>
+            </div>
+            <div class="capability-subskills">
+              <span>Suspension geometry</span>
+              <span>Kinematics</span>
+              <span>Tire modeling</span>
+            </div>
+          </li>
+          <li>
+            <div>
+              <span class="capability-name">Automotive forensics</span>
+              <small class="capability-meta">Reconstruction / mapping / evidence</small>
+            </div>
+            <div class="capability-subskills">
+              <span>Accident reconstruction</span>
+              <span>3D scanning</span>
+              <span>Scene documentation</span>
+            </div>
+          </li>
+          <li>
+            <div>
+              <span class="capability-name">Media production</span>
+              <small class="capability-meta">Photo / video / drone</small>
+            </div>
+            <div class="capability-subskills">
+              <span>Photography</span>
+              <span>Videography</span>
+              <span>Drone capture</span>
+            </div>
+          </li>
+          <li>
+            <div>
+              <span class="capability-name">CAD and drafting</span>
+              <small class="capability-meta">Technical drawings / 3D modeling</small>
+            </div>
+            <div class="capability-subskills">
+              <span>3D CAD</span>
+              <span>Architectural drafting</span>
+              <span>Sketch translation</span>
+            </div>
+          </li>
+          <li>
+            <div>
+              <span class="capability-name">Fabrication &amp; restoration</span>
+              <small class="capability-meta">Sheet metal / paint / detailing</small>
+            </div>
+            <div class="capability-subskills">
+              <span>Sheet-metal fabrication</span>
+              <span>Bodywork</span>
+              <span>Classic-car restoration</span>
+            </div>
+          </li>
+        </ul>
+      </section>
+
+      <section class="section contact-section" id="contact" aria-labelledby="contact-title">
+        <div class="contact-header">
+          <p class="eyebrow">Get in touch</p>
+          <h2 id="contact-title">Contact</h2>
+        </div>
+        <div class="contact-grid">
+          <div class="contact-item">
+            <span class="contact-label">Phone</span>
+            <a href="tel:+15550000000">+1 (xxx) xxx-xxxx</a>
+          </div>
+          <div class="contact-item">
+            <span class="contact-label">Email</span>
+            <a href="mailto:sebastian.r.morris@gmail.com">sebastian.r.morris@gmail.com</a>
+          </div>
+          <div class="contact-item">
+            <span class="contact-label">LinkedIn</span>
+            <a href="https://linkedin.com/in/sebastian-morris-403538323" target="_blank" rel="noopener noreferrer">linkedin.com/in/sebastian-morris-403538323</a>
+          </div>
+          <div class="contact-item">
+            <span class="contact-label">Photography</span>
+            <a href="https://www.sebsproductions.com" target="_blank" rel="noopener noreferrer">sebsproductions.com</a>
+          </div>
+          <div class="contact-item">
+            <span class="contact-label">Resume</span>
+            <a href="assets/resume.pdf" download>Download resume PDF</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-shell">
+        <span>Sebastian Morris</span>
+        <span>&copy; 2025</span>
       </div>
-    </section>
-  </main> 
-
-  <script>
-    // Smooth-scroll to hash on page load (useful when linking from other pages)
-    document.addEventListener('DOMContentLoaded', function () {
-      if (location.hash) {
-        var id = location.hash.slice(1);
-        var el = document.getElementById(id);
-        if (el) setTimeout(function () { el.scrollIntoView({ behavior: 'smooth' }); }, 50);
-      }
-
-      // Intercept same-page hash links to animate scrolling
-      document.querySelectorAll('a[href^="#"]').forEach(function (link) {
-        link.addEventListener('click', function (e) {
-          var href = link.getAttribute('href');
-          if (!href || href === '#') return;
-          if (href.charAt(0) === '#') {
-            e.preventDefault();
-            var target = document.getElementById(href.slice(1));
-            if (target) {
-              target.scrollIntoView({ behavior: 'smooth' });
-              history.pushState(null, '', href);
-            }
-          }
-        });
-      });
-    });
-  </script>
-</body>
+    </footer>
+  </body>
 </html>
