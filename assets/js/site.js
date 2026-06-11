@@ -206,7 +206,7 @@ function initProjectHeroParallax() {
     const viewportHeight = window.innerHeight || 1;
     const visibleCenter = rect.top + rect.height / 2;
     const normalized = (visibleCenter - viewportHeight / 2) / viewportHeight;
-    const offset = Math.max(-18, Math.min(18, normalized * -22));
+    const offset = Math.max(-54, Math.min(54, normalized * -64));
     hero.style.setProperty('--hero-parallax', `${offset}px`);
     ticking = false;
   };
