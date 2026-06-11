@@ -1,82 +1,85 @@
 from pathlib import Path
-from PIL import Image
 import subprocess, json, re, shutil, sys
+from PIL import Image
 
 
-def slugify_file(name: str) -> str:
-    stem = Path(name).stem.lower()
-    stem = re.sub(r'[^a-z0-9]+', '-', stem).strip('-')
-    ext = Path(name).suffix.lower()
-    if ext in {'.mov', '.m4v'}:
-        ext = '.mp4'
-    if stem == 'hero':
-        return 'hero.jpg' if ext in {'.jpeg', '.jpg'} else f'hero{ext}'
-    return f'{stem}{ext}'
+def ffprobe_dims(path: Path):
+    cmd = ['ffprobe','-v','error','-select_streams','v:0','-show_entries','stream=width,height:stream_side_data=rotation','-of','json',str(path)]
+    data = json.loads(subprocess.run(cmd, capture_output=True, text=True, check=True).stdout)
+    s = data['streams'][0]
+    w = int(s['width']); h = int(s['height'])
+    rotation = 0
+    for sd in s.get('side_data_list', []):
+        if 'rotation' in sd:
+            rotation = int(sd['rotation']); break
+    if rotation % 180 != 0:
+        w, h = h, w
+    return w, h
 
 
-def build_manifest(source_dir: Path, target_dir: Path, project_slug: str):
+def sanitize_stem(name: str):
+    return re.sub(r'[^a-z0-9]+', '-', Path(name).stem.lower()).strip('-')
+
+
+def normalize_image(path: Path, dest_dir: Path, stem: str):
+    ext = path.suffix.lower()
+    if ext in {'.jpg','.jpeg','.png','.webp'}:
+        dest = dest_dir / f'{stem}{ext if not (stem == "hero" and ext in {".jpg", ".jpeg"}) else ".jpg"}'
+        shutil.copy2(path, dest)
+    elif ext == '.heic':
+        dest = dest_dir / f'{stem}.jpg'
+        subprocess.run(['ffmpeg','-y','-i',str(path),'-frames:v','1','-q:v','2',str(dest)], check=True, capture_output=True)
+    else:
+        raise ValueError(f'Unsupported image format: {path}')
+    w, h = Image.open(dest).size
+    return dest.name, w, h
+
+
+def normalize_video(path: Path, dest_dir: Path, stem: str):
+    dest = dest_dir / f'{stem}.mp4'
+    subprocess.run(['ffmpeg','-y','-i',str(path),'-movflags','+faststart','-pix_fmt','yuv420p','-vf','scale=trunc(iw/2)*2:trunc(ih/2)*2','-vcodec','libx264','-acodec','aac',str(dest)], check=True, capture_output=True)
+    w, h = ffprobe_dims(dest)
+    return dest.name, w, h
+
+
+def build_manifest(source_dir: Path, target_dir: Path, project_slug: str, include_hero_in_gallery: bool = False):
     target_dir.mkdir(parents=True, exist_ok=True)
     items = []
-    hero_repo = None
+    hero_src = None
     for p in sorted(source_dir.iterdir()):
         if not p.is_file():
             continue
         ext = p.suffix.lower()
-        if ext not in {'.jpg', '.jpeg', '.png', '.webp', '.mp4', '.mov', '.m4v'}:
+        if ext not in {'.jpg','.jpeg','.png','.webp','.heic','.mp4','.mov','.m4v'}:
             continue
-        repo_name = slugify_file(p.name)
-        repo_path = target_dir / repo_name
-        kind = 'image' if ext in {'.jpg', '.jpeg', '.png', '.webp'} else 'video'
-        if kind == 'image':
-            shutil.copy2(p, repo_path)
-            w, h = Image.open(p).size
+        stem = sanitize_stem(p.name)
+        is_hero = stem == 'hero'
+        base = 'hero' if is_hero else stem
+        if ext in {'.jpg','.jpeg','.png','.webp','.heic'}:
+            repo_name, w, h = normalize_image(p, target_dir, base)
+            kind = 'image'
         else:
-            if ext in {'.mov', '.m4v'}:
-                subprocess.run(['ffmpeg', '-y', '-i', str(p), '-movflags', '+faststart', '-pix_fmt', 'yuv420p', '-vcodec', 'libx264', '-acodec', 'aac', str(repo_path)], check=True, capture_output=True)
-            else:
-                shutil.copy2(p, repo_path)
-            cmd = ['ffprobe', '-v', 'error', '-select_streams', 'v:0', '-show_entries', 'stream=width,height', '-of', 'json', str(repo_path)]
-            data = json.loads(subprocess.run(cmd, capture_output=True, text=True, check=True).stdout)
-            w = int(data['streams'][0]['width'])
-            h = int(data['streams'][0]['height'])
-        orientation = 'horizontal' if w > h else 'vertical' if h > w else 'square'
+            repo_name, w, h = normalize_video(p, target_dir, base)
+            kind = 'video'
         item = {
-            'name': p.name,
-            'repo_name': repo_name,
-            'kind': kind,
+            'name': p.name, 'repo_name': repo_name, 'kind': kind,
             'src': f'assets/projects/{project_slug}/{repo_name}',
-            'width': w,
-            'height': h,
-            'orientation': orientation,
-            'colSpan': 2 if orientation == 'horizontal' else 1,
+            'width': w, 'height': h,
         }
-        if Path(p).stem.lower() == 'hero':
-            hero_repo = item['src']
+        item['orientation'] = 'horizontal' if w > h else 'vertical' if h > w else 'square'
+        item['colSpan'] = 2 if item['orientation'] == 'horizontal' else 1
+        if is_hero:
+            hero_src = item['src']
+            if include_hero_in_gallery:
+                items.append(item)
         else:
             items.append(item)
-
-    h_items = [x for x in items if x['colSpan'] == 2]
-    v_items = [x for x in items if x['colSpan'] == 1]
-    ordered = []
-    row_units = 0
-    while h_items or v_items:
-        remaining = 3 - row_units
-        if remaining in (3, 2):
-            pick = h_items.pop(0) if h_items else v_items.pop(0)
-        else:
-            pick = v_items.pop(0) if v_items else h_items.pop(0)
-        ordered.append(pick)
-        row_units += pick['colSpan']
-        if row_units >= 3:
-            row_units = 0
-
-    manifest = {'project': project_slug, 'columns': 3, 'hero': hero_repo, 'items': ordered}
+    manifest = {'project': project_slug, 'columns': 3, 'hero': hero_src, 'items': items}
     (target_dir / 'gallery-manifest.json').write_text(json.dumps(manifest, indent=2), encoding='utf-8')
-    return manifest
+    print(json.dumps(manifest, indent=2))
 
 
 if __name__ == '__main__':
-    if len(sys.argv) != 4:
-        raise SystemExit('usage: python tools/sync_project_gallery.py <source_dir> <target_dir> <project_slug>')
-    manifest = build_manifest(Path(sys.argv[1]), Path(sys.argv[2]), sys.argv[3])
-    print(json.dumps(manifest, indent=2))
+    if len(sys.argv) < 4:
+        raise SystemExit('usage: python tools/sync_project_gallery.py <source_dir> <target_dir> <project_slug> [--include-hero]')
+    build_manifest(Path(sys.argv[1]), Path(sys.argv[2]), sys.argv[3], include_hero_in_gallery=('--include-hero' in sys.argv[4:]))

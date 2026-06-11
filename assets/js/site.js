@@ -11,7 +11,7 @@ const projects = [
     title: "Chevelle Restoration",
     year: 2020,
     slug: "chevelle-restoration",
-    image: "/assets/img/project-chevelle-restoration.svg",
+    image: "assets/projects/Chevelle/hero.PNG",
     summary: "A long-form restoration focused on body prep, mechanical patience, and preserving the car's character.",
     tools: ["Restoration", "Sheet metal", "Paint/body", "Detailing"]
   },
@@ -140,7 +140,7 @@ function renderProjectGallery() {
 
   gallery.innerHTML = manifest.items.map((item, index) => {
     const mediaUrl = assetUrl(item.src);
-    const common = `class="gallery-media" style="aspect-ratio: ${item.width} / ${item.height};"`;
+    const common = `class="gallery-media"`;
     const wrapperStyle = `--col-span:${item.colSpan}; --media-width:${item.width}; --media-height:${item.height};`;
     if (item.kind === 'video') {
       return `

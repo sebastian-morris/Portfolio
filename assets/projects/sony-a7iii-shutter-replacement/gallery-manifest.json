@@ -4,14 +4,14 @@
   "hero": "assets/projects/sony-a7iii-shutter-replacement/hero.jpg",
   "items": [
     {
-      "name": "IMG_9816.MP4",
-      "repo_name": "img-9816.mp4",
-      "kind": "video",
-      "src": "assets/projects/sony-a7iii-shutter-replacement/img-9816.mp4",
-      "width": 1280,
-      "height": 720,
-      "orientation": "horizontal",
-      "colSpan": 2
+      "name": "hero.JPEG",
+      "repo_name": "hero.jpg",
+      "kind": "image",
+      "src": "assets/projects/sony-a7iii-shutter-replacement/hero.jpg",
+      "width": 1536,
+      "height": 2048,
+      "orientation": "vertical",
+      "colSpan": 1
     },
     {
       "name": "IMG_9684.MOV",
@@ -24,14 +24,24 @@
       "colSpan": 1
     },
     {
+      "name": "IMG_9816.MP4",
+      "repo_name": "img-9816.mp4",
+      "kind": "video",
+      "src": "assets/projects/sony-a7iii-shutter-replacement/img-9816.mp4",
+      "width": 720,
+      "height": 1280,
+      "orientation": "vertical",
+      "colSpan": 1
+    },
+    {
       "name": "IMG_9822.MP4",
       "repo_name": "img-9822.mp4",
       "kind": "video",
       "src": "assets/projects/sony-a7iii-shutter-replacement/img-9822.mp4",
-      "width": 1280,
-      "height": 720,
-      "orientation": "horizontal",
-      "colSpan": 2
+      "width": 720,
+      "height": 1280,
+      "orientation": "vertical",
+      "colSpan": 1
     },
     {
       "name": "Sequence 01_1.mp4",
