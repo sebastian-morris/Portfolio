@@ -196,6 +196,32 @@ function renderProjectGallery() {
 
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+function initProjectHeroParallax() {
+  const hero = document.querySelector('.project-hero-overlay');
+  if (!hero || prefersReducedMotion) return;
+
+  let ticking = false;
+  const updateParallax = () => {
+    const rect = hero.getBoundingClientRect();
+    const viewportHeight = window.innerHeight || 1;
+    const visibleCenter = rect.top + rect.height / 2;
+    const normalized = (visibleCenter - viewportHeight / 2) / viewportHeight;
+    const offset = Math.max(-18, Math.min(18, normalized * -22));
+    hero.style.setProperty('--hero-parallax', `${offset}px`);
+    ticking = false;
+  };
+
+  const requestUpdate = () => {
+    if (ticking) return;
+    ticking = true;
+    window.requestAnimationFrame(updateParallax);
+  };
+
+  requestUpdate();
+  window.addEventListener('scroll', requestUpdate, { passive: true });
+  window.addEventListener('resize', requestUpdate);
+}
+
 function prepareRevealText() {
   document.querySelectorAll(".reveal-text").forEach((element) => {
     if (element.dataset.revealReady) return;
@@ -235,6 +261,7 @@ function updateRevealText() {
 }
 
 renderProjectGallery();
+initProjectHeroParallax();
 prepareRevealText();
 updateRevealText();
 window.addEventListener("scroll", updateRevealText, { passive: true });
