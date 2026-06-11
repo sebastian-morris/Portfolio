@@ -1,0 +1,47 @@
+{
+  "project": "sony-a7iii-shutter-replacement",
+  "columns": 3,
+  "hero": "assets/projects/sony-a7iii-shutter-replacement/hero.jpg",
+  "items": [
+    {
+      "name": "IMG_9816.MP4",
+      "repo_name": "img-9816.mp4",
+      "kind": "video",
+      "src": "assets/projects/sony-a7iii-shutter-replacement/img-9816.mp4",
+      "width": 1280,
+      "height": 720,
+      "orientation": "horizontal",
+      "colSpan": 2
+    },
+    {
+      "name": "IMG_9684.MOV",
+      "repo_name": "img-9684.mp4",
+      "kind": "video",
+      "src": "assets/projects/sony-a7iii-shutter-replacement/img-9684.mp4",
+      "width": 654,
+      "height": 872,
+      "orientation": "vertical",
+      "colSpan": 1
+    },
+    {
+      "name": "IMG_9822.MP4",
+      "repo_name": "img-9822.mp4",
+      "kind": "video",
+      "src": "assets/projects/sony-a7iii-shutter-replacement/img-9822.mp4",
+      "width": 1280,
+      "height": 720,
+      "orientation": "horizontal",
+      "colSpan": 2
+    },
+    {
+      "name": "Sequence 01_1.mp4",
+      "repo_name": "sequence-01-1.mp4",
+      "kind": "video",
+      "src": "assets/projects/sony-a7iii-shutter-replacement/sequence-01-1.mp4",
+      "width": 1080,
+      "height": 1920,
+      "orientation": "vertical",
+      "colSpan": 1
+    }
+  ]
+}

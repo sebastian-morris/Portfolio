@@ -120,6 +120,80 @@ document.querySelectorAll("[data-project-hero], [data-project-image]").forEach((
   if (container) container.style.setProperty("--detail-image", `url('${imageUrl}')`);
 });
 
+
+function renderProjectGallery() {
+  const gallery = document.querySelector('[data-project-gallery]');
+  const manifestNode = document.querySelector('[data-project-gallery-manifest]');
+  if (!gallery || !manifestNode) return;
+
+  let manifest;
+  try {
+    manifest = JSON.parse(manifestNode.textContent);
+  } catch (error) {
+    console.error('Invalid project gallery manifest', error);
+    return;
+  }
+  if (!manifest?.items?.length) {
+    gallery.innerHTML = '';
+    return;
+  }
+
+  gallery.innerHTML = manifest.items.map((item, index) => {
+    const mediaUrl = assetUrl(item.src);
+    const common = `class="gallery-media" style="aspect-ratio: ${item.width} / ${item.height};"`;
+    const wrapperStyle = `--col-span:${item.colSpan}; --media-width:${item.width}; --media-height:${item.height};`;
+    if (item.kind === 'video') {
+      return `
+        <figure class="gallery-item" data-gallery-item data-col-span="${item.colSpan}" style="${wrapperStyle}">
+          <video ${common} autoplay muted loop playsinline controls preload="metadata" poster="${assetUrl(manifest.hero)}">
+            <source src="${mediaUrl}" type="${mediaUrl.toLowerCase().endsWith('.mov') ? 'video/quicktime' : 'video/mp4'}">
+          </video>
+        </figure>
+      `;
+    }
+    return `
+      <figure class="gallery-item" data-gallery-item data-col-span="${item.colSpan}" style="${wrapperStyle}">
+        <img ${common} src="${mediaUrl}" alt="${currentProject ? currentProject.title : 'Project'} gallery media ${index + 1}" loading="lazy">
+      </figure>
+    `;
+  }).join('');
+
+  const videos = gallery.querySelectorAll('video');
+  videos.forEach((video) => {
+    video.muted = true;
+    video.defaultMuted = true;
+    const playVideo = () => video.play().catch(() => {});
+    video.addEventListener('loadedmetadata', playVideo, { once: true });
+    playVideo();
+  });
+
+  const layoutGallery = () => {
+    const styles = window.getComputedStyle(gallery);
+    const rowHeight = parseFloat(styles.gridAutoRows) || 10;
+    const gap = parseFloat(styles.rowGap || styles.gap) || 12;
+    const columns = 3;
+    const columnWidth = (gallery.clientWidth - gap * (columns - 1)) / columns;
+    gallery.querySelectorAll('[data-gallery-item]').forEach((item) => {
+      const colSpan = Number(item.dataset.colSpan || 1);
+      const mediaWidth = Number(item.style.getPropertyValue('--media-width')) || 1;
+      const mediaHeight = Number(item.style.getPropertyValue('--media-height')) || 1;
+      const width = columnWidth * colSpan + gap * (colSpan - 1);
+      const height = width * (mediaHeight / mediaWidth);
+      const rowSpan = Math.max(1, Math.ceil((height + gap) / (rowHeight + gap)));
+      item.style.setProperty('--row-span', String(rowSpan));
+    });
+  };
+
+  const relayout = () => window.requestAnimationFrame(layoutGallery);
+  gallery.querySelectorAll('img, video').forEach((media) => {
+    media.addEventListener('loadeddata', relayout);
+    media.addEventListener('loadedmetadata', relayout);
+    media.addEventListener('load', relayout);
+  });
+  relayout();
+  window.addEventListener('resize', relayout);
+}
+
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 function prepareRevealText() {
@@ -160,6 +234,7 @@ function updateRevealText() {
   });
 }
 
+renderProjectGallery();
 prepareRevealText();
 updateRevealText();
 window.addEventListener("scroll", updateRevealText, { passive: true });
