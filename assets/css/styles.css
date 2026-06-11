@@ -1292,6 +1292,7 @@ p {
   box-shadow: none;
 }
 
+
 .chevelle-gallery-card img {
   display: block;
   width: 100%;
@@ -1299,27 +1300,15 @@ p {
   object-fit: cover;
   background: transparent;
   transform-origin: center center;
-  animation: chevelle-float 6s ease-in-out infinite;
-  transition: transform 900ms ease;
+  transition: transform 700ms ease;
   will-change: transform;
-}
-
-.chevelle-gallery-card:nth-child(3n + 1) img {
-  animation-delay: -0.8s;
-}
-
-.chevelle-gallery-card:nth-child(3n + 2) img {
-  animation-delay: -2.4s;
-}
-
-.chevelle-gallery-card:nth-child(3n) img {
-  animation-delay: -4.1s;
 }
 
 .chevelle-gallery-card:hover img,
 .chevelle-gallery-card:focus-within img {
-  transform: scale(1.03) translateY(-3px);
+  transform: scale(1.054) translateY(-5px);
 }
+
 
 @media (max-width: 980px) {
   .chevelle-gallery-masonry {
@@ -1338,14 +1327,3 @@ p {
 }
 
 
-@keyframes chevelle-float {
-  0% {
-    transform: translateY(0px) scale(1.006) rotate(0deg);
-  }
-  50% {
-    transform: translateY(-6px) scale(1.018) rotate(0.12deg);
-  }
-  100% {
-    transform: translateY(0px) scale(1.006) rotate(0deg);
-  }
-}

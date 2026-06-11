@@ -202,11 +202,8 @@ function initProjectHeroParallax() {
 
   let ticking = false;
   const updateParallax = () => {
-    const rect = hero.getBoundingClientRect();
-    const viewportHeight = window.innerHeight || 1;
-    const visibleCenter = rect.top + rect.height / 2;
-    const normalized = (visibleCenter - viewportHeight / 2) / viewportHeight;
-    const offset = Math.max(-54, Math.min(54, normalized * -64));
+    const scrollOffset = window.scrollY * -0.18;
+    const offset = Math.max(-160, Math.min(32, scrollOffset));
     hero.style.setProperty('--hero-parallax', `${offset}px`);
     ticking = false;
   };
