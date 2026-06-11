@@ -72,11 +72,15 @@ function assetPath(path) {
   return document.body.dataset.depth === "project" ? `../${path}` : path;
 }
 
+function assetUrl(path) {
+  return new URL(assetPath(path), document.baseURI).href;
+}
+
 function renderProjects(order = "desc") {
   if (!projectGrid) return;
   const sorted = [...projects].sort((a, b) => order === "asc" ? a.year - b.year : b.year - a.year);
   projectGrid.innerHTML = sorted.map((project) => `
-    <a class="project-tile" href="projects/${project.slug}.html" style="--tile-image: url('${assetPath(project.image)}')" aria-label="Open ${project.title} project">
+    <a class="project-tile" href="projects/${project.slug}.html" style="--tile-image: url('${assetUrl(project.image)}')" aria-label="Open ${project.title} project">
       <time datetime="${project.year}">${project.year}</time>
       <h2>${project.title}</h2>
       <p>${project.summary}</p>
@@ -110,10 +114,10 @@ document.querySelectorAll("[data-project-tools]").forEach((target) => {
 
 document.querySelectorAll("[data-project-hero], [data-project-image]").forEach((target) => {
   if (!currentProject) return;
-  const imagePath = assetPath(currentProject.image);
-  target.style.setProperty("--detail-image", `url('${imagePath}')`);
+  const imageUrl = assetUrl(currentProject.image);
+  target.style.setProperty("--detail-image", `url('${imageUrl}')`);
   const container = target.closest(".project-detail") || target.parentElement;
-  if (container) container.style.setProperty("--detail-image", `url('${imagePath}')`);
+  if (container) container.style.setProperty("--detail-image", `url('${imageUrl}')`);
 });
 
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
