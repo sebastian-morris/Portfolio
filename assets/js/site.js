@@ -3,7 +3,7 @@ const projects = [
     title: "Jeep Rebuild",
     year: 2010,
     slug: "jeep-rebuild",
-    image: "assets/img/project-jeep-rebuild.svg",
+    image: "/assets/img/project-jeep-rebuild.svg",
     summary: "An early rebuild focused on teardown discipline, mechanical sequencing, and bringing a worn platform back to life.",
     tools: ["Mechanical repair", "Diagnostics", "Fabrication", "Assembly"]
   },
@@ -11,7 +11,7 @@ const projects = [
     title: "Chevelle Restoration",
     year: 2020,
     slug: "chevelle-restoration",
-    image: "assets/img/project-chevelle-restoration.svg",
+    image: "/assets/img/project-chevelle-restoration.svg",
     summary: "A long-form restoration focused on body prep, mechanical patience, and preserving the car's character.",
     tools: ["Restoration", "Sheet metal", "Paint/body", "Detailing"]
   },
@@ -19,7 +19,7 @@ const projects = [
     title: "Tire Modeling Analysis",
     year: 2025,
     slug: "tire-modeling-analysis",
-    image: "assets/img/project-tire-modeling-analysis.svg",
+    image: "/assets/img/project-tire-modeling-analysis.svg",
     summary: "A vehicle dynamics study focused on tire behavior, suspension inputs, and model validation.",
     tools: ["Vehicle dynamics", "Tire modeling", "Data analysis", "Validation"]
   },
@@ -27,7 +27,7 @@ const projects = [
     title: "Tesla Cyber truck CAD project",
     year: 2023,
     slug: "tesla-cyber-truck-cad-project",
-    image: "assets/img/project-tesla-cyber-truck-cad.svg",
+    image: "/assets/img/project-tesla-cyber-truck-cad.svg",
     summary: "A CAD exercise translating a sharp vehicle form into clean geometry and controlled surfaces.",
     tools: ["CAD", "Surfacing", "Assembly", "Design modeling"]
   },
@@ -35,7 +35,7 @@ const projects = [
     title: "Skateboard Business",
     year: 2022,
     slug: "skateboard-business",
-    image: "assets/img/project-skateboard-business.svg",
+    image: "/assets/img/project-skateboard-business.svg",
     summary: "A small product venture combining making, brand presentation, photography, and direct customer feedback.",
     tools: ["Product design", "Photography", "Branding", "Sales"]
   },
@@ -43,7 +43,7 @@ const projects = [
     title: "Miata",
     year: 2025,
     slug: "miata",
-    image: "assets/img/project-miata.svg",
+    image: "/assets/img/project-miata.svg",
     summary: "A lightweight sports-car project centered on maintenance, handling feel, and driver-focused refinement.",
     tools: ["Automotive repair", "Suspension", "Maintenance", "Testing"]
   },
@@ -52,14 +52,14 @@ const projects = [
     year: 2024,
     slug: "sony-a7iii-shutter-replacement",
     image: "assets/projects/sony-a7iii-shutter-replacement/hero.jpg",
-    summary: "A precision repair project replacing a failed shutter assembly through careful disassembly and testing.",
+    summary: "A precision repair project replacing a failed shutter assembly through careful disassembly and reassembly.",
     tools: ["Camera repair", "Electronics", "Precision tools", "Testing"]
   },
   {
     title: "Pursa MRK3 Assembly",
     year: 2025,
     slug: "pursa-mrk3-assembly",
-    image: "assets/img/project-pursa-mrk3.svg",
+    image: "/assets/img/project-pursa-mrk3.svg",
     summary: "A 3D-printer assembly and calibration project focused on alignment, tuning, and reliable output.",
     tools: ["3D printing", "Assembly", "Calibration", "Troubleshooting"]
   }
@@ -76,7 +76,7 @@ function renderProjects(order = "desc") {
   if (!projectGrid) return;
   const sorted = [...projects].sort((a, b) => order === "asc" ? a.year - b.year : b.year - a.year);
   projectGrid.innerHTML = sorted.map((project) => `
-    <a class="project-tile" href="projects/${project.slug}.html" style="--tile-image: url('${project.image}')" aria-label="Open ${project.title} project">
+    <a class="project-tile" href="projects/${project.slug}.html" style="--tile-image: url('${assetPath(project.image)}')" aria-label="Open ${project.title} project">
       <time datetime="${project.year}">${project.year}</time>
       <h2>${project.title}</h2>
       <p>${project.summary}</p>
@@ -108,9 +108,12 @@ document.querySelectorAll("[data-project-tools]").forEach((target) => {
   target.innerHTML = currentProject.tools.map((tool) => `<span>${tool}</span>`).join("");
 });
 
-document.querySelectorAll("[data-project-image]").forEach((target) => {
+document.querySelectorAll("[data-project-hero], [data-project-image]").forEach((target) => {
   if (!currentProject) return;
-  target.style.setProperty("--detail-image", `url('../${currentProject.image}')`);
+  const imagePath = assetPath(currentProject.image);
+  target.style.setProperty("--detail-image", `url('${imagePath}')`);
+  const container = target.closest(".project-detail") || target.parentElement;
+  if (container) container.style.setProperty("--detail-image", `url('${imagePath}')`);
 });
 
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
