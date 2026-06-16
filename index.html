@@ -23,20 +23,32 @@
     </header>
 
     <main id="main">
-      <section class="hero" aria-labelledby="home-title">
-        <div class="hero-grid">
-          <div class="hero-copy">
-            <p class="eyebrow fade-in">Engineering / Design / Media Production</p>
-            <h1 id="home-title" class="fade-in delay-1">Sebastian Morris</h1>
-            <p class="lead fade-in delay-1">Here is a collection of my life's experience. Feel free to explore!</p>
-            <div class="hero-actions fade-in delay-2">
-              <a class="button" href="projects.html">View Projects</a>
-              <a class="button secondary" href="experience.html">Experience</a>
-            </div>
+      <section class="hero hero-fullbleed" aria-labelledby="home-title">
+        <div class="hero-bg" id="heroBg"></div>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+          <p class="eyebrow fade-in">Sebastian Morris</p>
+          <h1 id="home-title" class="fade-in delay-1">Engineering &amp;<br><span class="hero-nowrap">Media Production</span></h1>
+          <div class="hero-actions fade-in delay-2">
+            <a class="button" href="projects.html">View Projects</a>
+            <a class="button secondary" href="experience.html">Experience</a>
           </div>
-          <div class="portrait-frame fade-in delay-2" role="img" aria-label="Portrait placeholder for Sebastian Morris">
-            <div class="portrait-label">Automotive / Design / Media</div>
-          </div>
+        </div>
+        <button class="scroll-cue" aria-label="Scroll down">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="6 9 12 15 18 9"/>
+          </svg>
+        </button>
+      </section>
+
+      <!-- Education — full-width hero with parallax -->
+      <section class="edu-hero" aria-labelledby="education-title">
+        <div class="edu-hero-bg" id="eduHeroBg"></div>
+        <div class="edu-hero-overlay"></div>
+        <div class="edu-hero-content">
+          <p class="eyebrow">Education</p>
+          <h2 id="education-title">University of California, Berkeley</h2>
+          <p class="edu-hero-sub">B.S. Mechanical Engineering &mdash; In Progress</p>
         </div>
       </section>
 
@@ -52,8 +64,8 @@
 
       <section class="section" aria-label="Portfolio metrics">
         <div class="metric-row">
-          <a class="metric" href="projects.html" aria-label="8 Project studies — view projects">
-            <strong>8</strong><span>Project studies</span>
+          <a class="metric" href="projects.html" aria-label="7 Project studies — view projects">
+            <strong>7</strong><span>Project studies</span>
           </a>
           <a class="metric" href="experience.html" aria-label="5 Experiences — view experience">
             <strong>5</strong><span>Experiences</span>
@@ -61,87 +73,154 @@
         </div>
       </section>
 
-      <section class="section intro-grid" aria-labelledby="capabilities-title">
-        <div>
-          <p class="eyebrow">Capabilities</p>
-          <h2 id="capabilities-title">Engineering, fabrication, media.</h2>
+      <!-- 3D Project Carousel -->
+      <section class="carousel-section" aria-label="Featured projects">
+        <div class="section" style="padding-bottom:0; padding-top:3rem">
+          <p class="eyebrow" style="text-align:center">Selected Work</p>
         </div>
-        <ul class="capability-list">
-          <li>
-            <div>
+        <div class="carousel-scene" id="carouselScene">
+          <div class="carousel-ring" id="carouselRing"></div>
+        </div>
+        <p class="carousel-hint">Drag to explore &middot; Scroll to advance</p>
+      </section>
+
+      <section class="section capabilities-section" aria-labelledby="capabilities-title">
+        <div class="capability-left">
+          <p class="eyebrow">Capabilities</p>
+          <ul class="capability-list">
+            <li data-skills="Suspension geometry,Kinematics,Tire modeling">
               <span class="capability-name">Vehicle dynamics</span>
               <small class="capability-meta">Testing / validation / modeling</small>
-            </div>
-            <div class="capability-subskills">
-              <span>Suspension geometry</span>
-              <span>Kinematics</span>
-              <span>Tire modeling</span>
-            </div>
-          </li>
-          <li>
-            <div>
+            </li>
+            <li data-skills="Accident reconstruction,3D scanning,Scene documentation">
               <span class="capability-name">Automotive forensics</span>
               <small class="capability-meta">Reconstruction / mapping / evidence</small>
-            </div>
-            <div class="capability-subskills">
-              <span>Accident reconstruction</span>
-              <span>3D scanning</span>
-              <span>Scene documentation</span>
-            </div>
-          </li>
-          <li>
-            <div>
+            </li>
+            <li data-skills="Photography,Videography,Drone capture">
               <span class="capability-name">Media production</span>
               <small class="capability-meta">Photo / video / drone</small>
-            </div>
-            <div class="capability-subskills">
-              <span>Photography</span>
-              <span>Videography</span>
-              <span>Drone capture</span>
-            </div>
-          </li>
-          <li>
-            <div>
+            </li>
+            <li data-skills="3D CAD,Architectural drafting,Sketch translation">
               <span class="capability-name">CAD and drafting</span>
               <small class="capability-meta">Technical drawings / 3D modeling</small>
-            </div>
-            <div class="capability-subskills">
-              <span>3D CAD</span>
-              <span>Architectural drafting</span>
-              <span>Sketch translation</span>
-            </div>
-          </li>
-          <li>
-            <div>
+            </li>
+            <li data-skills="Sheet-metal fabrication,Bodywork,Classic-car restoration">
               <span class="capability-name">Fabrication &amp; restoration</span>
               <small class="capability-meta">Sheet metal / paint / detailing</small>
-            </div>
-            <div class="capability-subskills">
-              <span>Sheet-metal fabrication</span>
-              <span>Bodywork</span>
-              <span>Classic-car restoration</span>
-            </div>
-          </li>
-        </ul>
+            </li>
+          </ul>
+        </div>
+        <div class="capability-right">
+          <div class="capability-display">
+            <h2 id="capabilities-title" class="capability-headline">VERSATILE<br>PROBLEM SOLVER</h2>
+          </div>
+        </div>
+      </section>
+
+      <section class="section tools-section" aria-label="Tools and apps">
+        <p class="eyebrow">Tools &amp; Apps</p>
+        <div class="tools-grid">
+          <a class="tool-item" href="https://www.solidworks.com" target="_blank" rel="noopener noreferrer">
+            <div class="tool-icon-wrap"><img src="assets/icons/SOLIDWORKS.png" alt="SolidWorks"></div>
+            <div class="tool-text"><div class="tool-name">SolidWorks</div><div class="tool-desc">CAD Modeling</div></div>
+          </a>
+          <a class="tool-item" href="https://www.autodesk.com" target="_blank" rel="noopener noreferrer">
+            <div class="tool-icon-wrap"><img src="assets/icons/AUTODESK.svg" alt="Autodesk"></div>
+            <div class="tool-text"><div class="tool-name">Autodesk</div><div class="tool-desc">CAD &amp; Design</div></div>
+          </a>
+          <a class="tool-item" href="https://www.blender.org" target="_blank" rel="noopener noreferrer">
+            <div class="tool-icon-wrap"><img src="assets/icons/BLENDER.svg" alt="Blender"></div>
+            <div class="tool-text"><div class="tool-name">Blender</div><div class="tool-desc">3D Modeling</div></div>
+          </a>
+          <a class="tool-item" href="https://www.mathworks.com/products/matlab.html" target="_blank" rel="noopener noreferrer">
+            <div class="tool-icon-wrap"><img src="assets/icons/MATLAB.svg" alt="MATLAB"></div>
+            <div class="tool-text"><div class="tool-name">MATLAB</div><div class="tool-desc">Technical Computing</div></div>
+          </a>
+          <a class="tool-item" href="https://www.sketchup.com" target="_blank" rel="noopener noreferrer">
+            <div class="tool-icon-wrap"><img src="assets/icons/SKETCHUP.svg" alt="SketchUp"></div>
+            <div class="tool-text"><div class="tool-name">SketchUp</div><div class="tool-desc">3D Design</div></div>
+          </a>
+          <a class="tool-item" href="https://www.capturingreality.com" target="_blank" rel="noopener noreferrer">
+            <div class="tool-icon-wrap"><img src="assets/icons/REALITY_CAPTURE.png" alt="RealityCapture"></div>
+            <div class="tool-text"><div class="tool-name">RealityCapture</div><div class="tool-desc">3D Scanning</div></div>
+          </a>
+          <a class="tool-item" href="https://www.adobe.com/products/photoshop.html" target="_blank" rel="noopener noreferrer">
+            <div class="tool-icon-wrap"><img src="assets/icons/PHOTOSHOP.svg" alt="Photoshop"></div>
+            <div class="tool-text"><div class="tool-name">Photoshop</div><div class="tool-desc">Photo Editing</div></div>
+          </a>
+          <a class="tool-item" href="https://www.adobe.com/products/photoshop-lightroom.html" target="_blank" rel="noopener noreferrer">
+            <div class="tool-icon-wrap"><img src="assets/icons/LIGHTROOM.svg" alt="Lightroom"></div>
+            <div class="tool-text"><div class="tool-name">Lightroom</div><div class="tool-desc">Photo Editing</div></div>
+          </a>
+          <a class="tool-item" href="https://www.adobe.com/products/premiere.html" target="_blank" rel="noopener noreferrer">
+            <div class="tool-icon-wrap"><img src="assets/icons/PREMIERE_PRO.svg" alt="Premiere Pro"></div>
+            <div class="tool-text"><div class="tool-name">Premiere Pro</div><div class="tool-desc">Video Editing</div></div>
+          </a>
+          <a class="tool-item" href="https://www.blackmagicdesign.com/products/davinciresolve" target="_blank" rel="noopener noreferrer">
+            <div class="tool-icon-wrap"><img src="assets/icons/DAVINCI_RESOLVE.svg" alt="DaVinci Resolve"></div>
+            <div class="tool-text"><div class="tool-name">DaVinci Resolve</div><div class="tool-desc">Color &amp; Editing</div></div>
+          </a>
+          <a class="tool-item" href="https://chatgpt.com" target="_blank" rel="noopener noreferrer">
+            <div class="tool-icon-wrap"><img src="assets/icons/CHATGPT.svg" alt="ChatGPT"></div>
+            <div class="tool-text"><div class="tool-name">ChatGPT</div><div class="tool-desc">AI Assistant</div></div>
+          </a>
+          <a class="tool-item" href="https://claude.ai" target="_blank" rel="noopener noreferrer">
+            <div class="tool-icon-wrap"><img src="assets/icons/CLAUDE.svg" alt="Claude"></div>
+            <div class="tool-text"><div class="tool-name">Claude</div><div class="tool-desc">AI Assistant</div></div>
+          </a>
+          <a class="tool-item" href="https://gemini.google.com" target="_blank" rel="noopener noreferrer">
+            <div class="tool-icon-wrap"><img src="assets/icons/GEMINI.svg" alt="Gemini"></div>
+            <div class="tool-text"><div class="tool-name">Gemini</div><div class="tool-desc">AI Assistant</div></div>
+          </a>
+          <a class="tool-item" href="https://www.deepseek.com" target="_blank" rel="noopener noreferrer">
+            <div class="tool-icon-wrap"><img src="assets/icons/DEEPSEEK.svg" alt="DeepSeek"></div>
+            <div class="tool-text"><div class="tool-name">DeepSeek</div><div class="tool-desc">AI Model</div></div>
+          </a>
+          <a class="tool-item" href="https://openrouter.ai" target="_blank" rel="noopener noreferrer">
+            <div class="tool-icon-wrap"><img src="assets/icons/OPEN_ROUTER.svg" alt="OpenRouter"></div>
+            <div class="tool-text"><div class="tool-name">OpenRouter</div><div class="tool-desc">AI Gateway</div></div>
+          </a>
+          <a class="tool-item" href="https://hermes-agent.nousresearch.com/" target="_blank" rel="noopener noreferrer">
+            <div class="tool-icon-wrap"><img src="assets/icons/HERMES_AGENT.png" alt="Hermes Agent"></div>
+            <div class="tool-text"><div class="tool-name">Hermes Agent</div><div class="tool-desc">AI Agent</div></div>
+          </a>
+          <a class="tool-item" href="https://github.com" target="_blank" rel="noopener noreferrer">
+            <div class="tool-icon-wrap"><img src="assets/icons/GITHUB.svg" alt="GitHub"></div>
+            <div class="tool-text"><div class="tool-name">GitHub</div><div class="tool-desc">Version Control</div></div>
+          </a>
+          <a class="tool-item" href="https://code.visualstudio.com" target="_blank" rel="noopener noreferrer">
+            <div class="tool-icon-wrap"><img src="assets/icons/VS_CODE.svg" alt="VS Code"></div>
+            <div class="tool-text"><div class="tool-name">VS Code</div><div class="tool-desc">Code Editor</div></div>
+          </a>
+        </div>
       </section>
 
       <section class="section contact-section" id="contact" aria-labelledby="contact-title">
         <div class="contact-header">
-          <p class="eyebrow">Get in touch</p>
-          <h2 id="contact-title">Contact</h2>
+          <div class="contact-title-block">
+            <p class="eyebrow">Get in touch</p>
+            <h2 id="contact-title">Contact</h2>
+          </div>
+          <div class="contact-socials">
+            <a href="https://linkedin.com/in/sebastian-morris-403538323" target="_blank" rel="noopener noreferrer" class="contact-social-icon" aria-label="LinkedIn">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+            </a>
+            <a href="#" class="contact-social-icon" aria-label="Instagram">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+            </a>
+            <a href="#" class="contact-social-icon" aria-label="GitHub">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+            </a>
+          </div>
         </div>
         <div class="contact-grid">
           <div class="contact-item">
             <span class="contact-label">Phone</span>
-            <a href="tel:+15550000000">+1 (xxx) xxx-xxxx</a>
+            <a href="tel:+18584149943" class="phone-link">+1 (858)-414-9943</a>
           </div>
           <div class="contact-item">
             <span class="contact-label">Email</span>
             <a href="mailto:sebastian.r.morris@gmail.com">sebastian.r.morris@gmail.com</a>
-          </div>
-          <div class="contact-item">
-            <span class="contact-label">LinkedIn</span>
-            <a href="https://linkedin.com/in/sebastian-morris-403538323" target="_blank" rel="noopener noreferrer">linkedin.com/in/sebastian-morris-403538323</a>
           </div>
           <div class="contact-item">
             <span class="contact-label">Photography</span>
@@ -153,12 +232,18 @@
           </div>
         </div>
       </section>
+
+      <div class="phone-qr-modal" id="phoneQrModal" aria-hidden="true">
+        <div class="phone-qr-card">
+          <img class="phone-qr-img" id="phoneQrImg" src="" alt="QR code — scan to call" width="200" height="200">
+          <p class="phone-qr-number">+1 (858)-414-9943</p>
+        </div>
+      </div>
     </main>
 
     <footer class="site-footer">
       <div class="footer-shell">
         <span>Sebastian Morris</span>
-        <span>&copy; 2025</span>
       </div>
     </footer>
   </body>
