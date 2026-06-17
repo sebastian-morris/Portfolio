@@ -1,6 +1,6 @@
 const projects = [
   {
-    title: "Jeep Rebuild",
+    title: "Jeep Wrangler Rebuild",
     year: 2010,
     slug: "jeep-rebuild",
     image: "assets/projects/Jeep/IMG_3698.jpg",
@@ -8,7 +8,7 @@ const projects = [
     tools: ["Mechanical repair", "Diagnostics", "Fabrication", "Assembly"]
   },
   {
-    title: "Chevelle Restoration",
+    title: "1971 Chevelle Restoration",
     year: 2020,
     slug: "chevelle-restoration",
     image: "assets/projects/Chevelle/hero.PNG",
@@ -24,15 +24,15 @@ const projects = [
     tools: ["Vehicle dynamics", "Tire modeling", "Data analysis", "Validation"]
   },
   {
-    title: "Skateboard Business",
+    title: "Carbon Fiber Reinforced Longboards",
     year: 2022,
     slug: "skateboard-business",
-    image: "/assets/img/project-skateboard-business.svg",
+    image: "assets/projects/Skateboards/hero.jpg",
     summary: "A small product venture combining making, brand presentation, photography, and direct customer feedback.",
     tools: ["Product design", "Photography", "Branding", "Sales"]
   },
   {
-    title: "Miata",
+    title: "Miata Repairs / Modification",
     year: 2025,
     slug: "miata",
     image: "assets/projects/Miata/B2x0jnmEMgpV9Ec02Wjtg_61a1e7c4bd4b47218a7d2ad6ee8094f7.png",
@@ -225,43 +225,58 @@ function initProjectHeroParallax() {
   window.addEventListener('resize', requestUpdate);
 }
 
-function prepareRevealText() {
-  document.querySelectorAll(".reveal-text").forEach((element) => {
-    if (element.dataset.revealReady) return;
-    const text = element.textContent.trim();
-    if (!text) return;
-    const chunks = text
-      .replace(/\s+/g, " ")
-      .split(/(?<=[.;:])\s+|,\s+(?=[a-zA-Z])/)
-      .filter(Boolean);
-    element.textContent = "";
-    chunks.forEach((chunk) => {
-      const line = document.createElement("span");
-      line.className = "reveal-line";
-      line.textContent = chunk;
-      if (!/[\s ]$/.test(chunk)) line.appendChild(document.createTextNode(" "));
-      element.appendChild(line);
+function prepareRevealText() {}
+
+function updateRevealText() {}
+
+function initHeroTypewriter() {
+  const heroContent = document.querySelector('.hero-content');
+  if (!heroContent) return;
+
+  const targets = [
+    heroContent.querySelector('.eyebrow'),
+    heroContent.querySelector('h1')
+  ].filter(Boolean);
+  if (!targets.length) return;
+
+  // Remove CSS fade-in so typewriter owns the animation
+  targets.forEach(el => {
+    el.classList.remove('fade-in', 'delay-1');
+    el.style.opacity = '1';
+    el.style.transform = 'none';
+    el.style.animation = 'none';
+  });
+
+  const allChars = [];
+
+  function wrapChars(node) {
+    [...node.childNodes].forEach(child => {
+      if (child.nodeType === Node.TEXT_NODE) {
+        const text = child.textContent;
+        if (!text) return;
+        const frag = document.createDocumentFragment();
+        [...text].forEach(ch => {
+          const span = document.createElement('span');
+          span.className = 'tw-char';
+          span.textContent = ch;
+          frag.appendChild(span);
+          allChars.push(span);
+        });
+        child.replaceWith(frag);
+      } else if (child.nodeType === Node.ELEMENT_NODE) {
+        wrapChars(child);
+      }
     });
-    element.dataset.revealReady = "true";
+  }
+
+  targets.forEach(el => wrapChars(el));
+
+  const totalMs = 500;
+  allChars.forEach((span, i) => {
+    setTimeout(() => span.classList.add('is-visible'), (i / allChars.length) * totalMs);
   });
 }
 
-function updateRevealText() {
-  if (prefersReducedMotion) return;
-  const viewport = window.innerHeight;
-  document.querySelectorAll(".reveal-text").forEach((element) => {
-    const rect = element.getBoundingClientRect();
-    const lines = [...element.querySelectorAll(".reveal-line")];
-    if (!lines.length) return;
-    const start = viewport * 1.08;
-    const end = viewport * 0.62;
-    const progress = Math.max(0, Math.min(1, (start - rect.top) / (start - end)));
-    const visibleCount = Math.floor(progress * (lines.length + 0.98));
-    lines.forEach((line, index) => {
-      line.classList.toggle("is-visible", index < visibleCount && rect.bottom > viewport * 0.2);
-    });
-  });
-}
 
 function initExperienceTimeline() {
   const timeline = document.querySelector('.timeline');
@@ -400,7 +415,7 @@ function initCarousel() {
       <div class="carousel-tile-info">
         <span class="carousel-tile-year">${project.year}</span>
         <span class="carousel-tile-title">${project.title}</span>
-        <a class="carousel-tile-btn" href="projects/${project.slug}.html">View Project →</a>
+        <a class="carousel-tile-btn" href="projects/${project.slug}.html">View Project</a>
       </div>`;
     ring.appendChild(tile);
     return tile;
@@ -538,116 +553,247 @@ function initHeroParallax() {
 }
 
 function initCapabilities() {
-  const items = document.querySelectorAll('.capability-list li[data-skills]');
+  const items = document.querySelectorAll('.capability-list li[data-branches]');
   const headline = document.querySelector('.capability-headline');
   const display = document.querySelector('.capability-display');
   const list = document.querySelector('.capability-list');
   if (!items.length || !headline || !display || !list) return;
 
   const NS = 'http://www.w3.org/2000/svg';
-
   const svg = document.createElementNS(NS, 'svg');
   svg.classList.add('cap-svg');
   svg.setAttribute('aria-hidden', 'true');
   display.appendChild(svg);
-
-  let activeItem = null;
 
   function clearDisplay() {
     svg.innerHTML = '';
     display.querySelectorAll('.cap-skill-label').forEach(el => el.remove());
   }
 
-  function showSkills(item) {
-    if (activeItem === item) return;
-    activeItem = item;
+  function makePath(x1, y1, x2, y2, stroke, strokeW, delay) {
+    const path = document.createElementNS(NS, 'path');
+    const t = (x2 - x1) * 0.5;
+    path.setAttribute('d', `M ${x1} ${y1} C ${x1 + t} ${y1}, ${x2 - t} ${y2}, ${x2} ${y2}`);
+    path.setAttribute('fill', 'none');
+    path.setAttribute('stroke', stroke);
+    path.setAttribute('stroke-width', strokeW);
+    path.setAttribute('stroke-linecap', 'round');
+    const len = path.getTotalLength();
+    path.style.strokeDasharray = len;
+    path.style.strokeDashoffset = len;
+    path.style.animation = `capLine 0.1s cubic-bezier(0.25,0,0.5,1) ${delay}s forwards`;
+    return path;
+  }
+
+  function makeDot(cx, cy, r, fill, delay) {
+    const c = document.createElementNS(NS, 'circle');
+    c.setAttribute('cx', cx); c.setAttribute('cy', cy); c.setAttribute('r', r);
+    c.setAttribute('fill', fill);
+    c.style.opacity = '0';
+    c.style.animation = `capDotIn 0.06s ease ${delay}s forwards`;
+    return c;
+  }
+
+  function makeLabel(text, x, y, cls, delay) {
+    const el = document.createElement('div');
+    el.className = `cap-skill-label ${cls}`;
+    el.textContent = text;
+    el.style.left = `${x}px`;
+    el.style.top = `${y}px`;
+    el.style.animationDelay = `${delay}s`;
+    return el;
+  }
+
+  function showL1(item) {
     clearDisplay();
     headline.classList.add('cap-hidden');
 
-    const skills = item.dataset.skills.split(',').map(s => s.trim());
-    const count = skills.length;
+    const branches = JSON.parse(item.dataset.branches);
+    const sharedSkills = item.dataset.sharedSkills ? JSON.parse(item.dataset.sharedSkills) : null;
 
     const dRect = display.getBoundingClientRect();
     const iRect = item.getBoundingClientRect();
     const lRect = list.getBoundingClientRect();
     const W = dRect.width;
     const H = dRect.height;
-
     svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
 
-    // Origin: behind the right edge of the skills tiles (negative x in display coords)
     const ox = lRect.right - dRect.left - 12;
-    const oy = Math.max(16, Math.min(H - 16,
-      (iRect.top + iRect.height / 2) - dRect.top
-    ));
+    const oy = Math.max(16, Math.min(H - 16, (iRect.top + iRect.height / 2) - dRect.top));
 
-    // Subskill targets — vertically centered in display
-    const SPACING = 66;
-    const totalH = (count - 1) * SPACING;
-    const startY = H / 2 - totalH / 2;
-    const lineEndX = W * 0.44;
+    const L2X = W * 0.28;
+    const L3X = W * 0.70;
+    const L3_SP = 30;
 
-    skills.forEach((skill, i) => {
-      const ty = startY + i * SPACING;
-      const tension = (lineEndX - ox) * 0.5;
-      const d = `M ${ox} ${oy} C ${ox + tension} ${oy}, ${lineEndX - tension} ${ty}, ${lineEndX} ${ty}`;
+    // Space L2 nodes far enough apart that L3 children don't overlap each other
+    const maxL3Count = sharedSkills ? 0 : Math.max(0, ...branches.map(br => (br.skills || []).length));
+    const L2_SP = maxL3Count > 0 ? Math.max(64, maxL3Count * 32 + 12) : 64;
 
-      const path = document.createElementNS(NS, 'path');
-      path.setAttribute('d', d);
-      path.setAttribute('fill', 'none');
-      path.setAttribute('stroke', 'rgba(201,167,87,0.6)');
-      path.setAttribute('stroke-width', '1.5');
-      path.setAttribute('stroke-linecap', 'round');
+    const l2Count = branches.length;
+    const l2Total = (l2Count - 1) * L2_SP;
+    const l2Start = Math.max(16, H / 2 - l2Total / 2);
 
-      const len = path.getTotalLength();
-      path.style.strokeDasharray = len;
-      path.style.strokeDashoffset = len;
-      // Fast draw — all lines in ~0.1s, minimal stagger
-      path.style.animation =
-        `capLine 0.1s cubic-bezier(0.25,0,0.5,1) ${i * 0.02}s forwards`;
-      svg.appendChild(path);
+    if (sharedSkills) {
+      // Media Production: same visual pattern as other trees — L2 nodes fan from L1,
+      // then lines converge from each L2 label's right edge to a midpoint,
+      // then diverge to shared output nodes on the right
 
-      // End dot
-      const endDot = document.createElementNS(NS, 'circle');
-      endDot.setAttribute('cx', lineEndX);
-      endDot.setAttribute('cy', ty);
-      endDot.setAttribute('r', '2.5');
-      endDot.setAttribute('fill', 'rgba(201,167,87,0.55)');
-      endDot.style.opacity = '0';
-      endDot.style.animation =
-        `capDotIn 0.06s ease ${i * 0.02 + 0.09}s forwards`;
-      svg.appendChild(endDot);
+      // Pass 1 — append L2 elements with dots (same as normal tree)
+      const l2Metas = [];
+      branches.forEach((br, i) => {
+        const ty = l2Start + i * L2_SP;
+        svg.appendChild(makePath(ox, oy, L2X, ty, 'rgba(201,167,87,0.55)', '1.5', i * 0.018));
+        svg.appendChild(makeDot(L2X, ty, 2.5, 'rgba(201,167,87,0.55)', i * 0.018 + 0.09));
+        const label = makeLabel(br.name, L2X + 8, ty, 'cap-l2-node', i * 0.018 + 0.08);
+        display.appendChild(label);
+        l2Metas.push({ ty, label, idx: i });
+      });
 
-      // Label appears as line lands
-      const label = document.createElement('div');
-      label.className = 'cap-skill-label';
-      label.textContent = skill;
-      label.style.left = `${lineEndX + 12}px`;
-      label.style.top = `${ty}px`;
-      label.style.animationDelay = `${i * 0.02 + 0.08}s`;
-      display.appendChild(label);
-    });
+      // Pass 2 — measure L2 right edges, compute convergence point
+      const freshDRect = display.getBoundingClientRect();
+      let sumRightX = 0;
+      l2Metas.forEach(meta => {
+        const lr = meta.label.getBoundingClientRect();
+        meta.l3OriginX = lr.right - freshDRect.left + 6;
+        sumRightX += meta.l3OriginX;
+      });
+      const avgRightX = sumRightX / l2Metas.length;
+      const midY = l2Start + (l2Count - 1) * L2_SP / 2;
+      const convX = avgRightX + (L3X - avgRightX) * 0.4;
+      const convDelay = l2Count * 0.018 + 0.11;
+
+      // Pass 3 — draw convergence lines from L2 label right edges to midpoint
+      l2Metas.forEach(({ ty, l3OriginX, idx }) => {
+        svg.appendChild(makePath(l3OriginX, ty, convX, midY, 'rgba(201,167,87,0.32)', '1.2', idx * 0.018 + 0.11));
+      });
+      svg.appendChild(makeDot(convX, midY, 3.5, 'rgba(201,167,87,0.75)', convDelay + 0.09));
+
+      // Pass 4 — diverge from midpoint to shared output nodes
+      const OUT_SP = L3_SP * 2;
+      const outCount = sharedSkills.length;
+      const outStart = midY - ((outCount - 1) * OUT_SP) / 2;
+      sharedSkills.forEach((skill, i) => {
+        const ty = outStart + i * OUT_SP;
+        svg.appendChild(makePath(convX, midY, L3X, ty, 'rgba(201,167,87,0.4)', '1.2', convDelay + 0.11 + i * 0.018));
+        svg.appendChild(makeDot(L3X, ty, 2, 'rgba(201,167,87,0.45)', convDelay + 0.11 + i * 0.018 + 0.09));
+        display.appendChild(makeLabel(skill, L3X + 8, ty, 'cap-l3-node', convDelay + 0.11 + i * 0.018 + 0.08));
+      });
+
+    } else {
+      // Normal tree: draw all L2 nodes, then fan L3 skills from each L2 label's right edge
+
+      // Pass 1 — append all L2 elements
+      const l2Metas = [];
+      branches.forEach((br, i) => {
+        const ty = l2Start + i * L2_SP;
+        svg.appendChild(makePath(ox, oy, L2X, ty, 'rgba(201,167,87,0.55)', '1.5', i * 0.018));
+        svg.appendChild(makeDot(L2X, ty, 2.5, 'rgba(201,167,87,0.55)', i * 0.018 + 0.09));
+        const label = makeLabel(br.name, L2X + 8, ty, 'cap-l2-node', i * 0.018 + 0.08);
+        display.appendChild(label);
+        l2Metas.push({ ty, skills: br.skills || [], label, idx: i });
+      });
+
+      // Pass 2 — measure each L2 label's right edge (single forced layout)
+      const freshDRect = display.getBoundingClientRect();
+      l2Metas.forEach(meta => {
+        const lr = meta.label.getBoundingClientRect();
+        meta.l3OriginX = lr.right - freshDRect.left + 6;
+      });
+
+      // Pass 3 — draw L3 paths + dots + labels from each L2 label's right edge
+      l2Metas.forEach(({ ty, skills, l3OriginX, idx }) => {
+        if (!skills.length) return;
+        const baseDelay = idx * 0.018 + 0.11;
+        const l3Count = skills.length;
+        const l3TotalH = (l3Count - 1) * L3_SP;
+        const l3StartY = Math.max(16, Math.min(H - l3TotalH - 16, ty - l3TotalH / 2));
+
+        skills.forEach((skill, j) => {
+          const l3y = l3StartY + j * L3_SP;
+          svg.appendChild(makePath(l3OriginX, ty, L3X, l3y, 'rgba(201,167,87,0.4)', '1.2', baseDelay + j * 0.018));
+          svg.appendChild(makeDot(L3X, l3y, 2, 'rgba(201,167,87,0.45)', baseDelay + j * 0.018 + 0.09));
+          display.appendChild(makeLabel(skill, L3X + 8, l3y, 'cap-l3-node', baseDelay + j * 0.018 + 0.08));
+        });
+      });
+    }
   }
 
   function reset() {
-    activeItem = null;
     clearDisplay();
     headline.classList.remove('cap-hidden');
   }
 
-  items.forEach((item) => {
-    item.addEventListener('mouseenter', () => showSkills(item));
-    item.addEventListener('mouseleave', (e) => {
-      const to = e.relatedTarget;
-      if (!to || !to.closest('.capability-list li[data-skills]')) reset();
-    });
+  const section = document.querySelector('.capabilities-section');
+  items.forEach(item => {
+    item.addEventListener('mouseenter', () => showL1(item));
   });
+  if (section) {
+    section.addEventListener('mouseleave', reset);
+  }
 }
 
 const scrollCueBtn = document.querySelector('.scroll-cue');
 if (scrollCueBtn) {
   scrollCueBtn.addEventListener('click', () => {
     window.scrollBy({ top: window.innerHeight, behavior: 'smooth' });
+  });
+}
+
+function initMobileNav() {
+  const base = document.body.dataset.depth === 'project' ? '../' : '';
+  const navShell = document.querySelector('.nav-shell');
+  if (!navShell) return;
+
+  // Hamburger button
+  const burger = document.createElement('button');
+  burger.className = 'nav-hamburger';
+  burger.setAttribute('aria-label', 'Open menu');
+  burger.setAttribute('aria-expanded', 'false');
+  burger.innerHTML = `
+    <span></span>
+    <span></span>
+    <span></span>
+  `;
+  navShell.appendChild(burger);
+
+  // Fullscreen overlay
+  const overlay = document.createElement('div');
+  overlay.className = 'mobile-menu';
+  overlay.setAttribute('aria-hidden', 'true');
+  overlay.innerHTML = `
+    <nav class="mobile-nav" aria-label="Mobile navigation">
+      <a href="${base}index.html">Home</a>
+      <a href="${base}experience.html">Experience</a>
+      <a href="${base}projects.html">Projects</a>
+      <a href="${base}index.html#contact">Contact</a>
+    </nav>
+  `;
+  document.body.appendChild(overlay);
+
+  function openMenu() {
+    overlay.classList.add('is-open');
+    overlay.setAttribute('aria-hidden', 'false');
+    burger.setAttribute('aria-expanded', 'true');
+    burger.classList.add('is-open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeMenu() {
+    overlay.classList.remove('is-open');
+    overlay.setAttribute('aria-hidden', 'true');
+    burger.setAttribute('aria-expanded', 'false');
+    burger.classList.remove('is-open');
+    document.body.style.overflow = '';
+  }
+
+  burger.addEventListener('click', () => {
+    burger.classList.contains('is-open') ? closeMenu() : openMenu();
+  });
+
+  overlay.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeMenu();
   });
 }
 
@@ -676,8 +822,8 @@ function initFixedNav() {
   socialNav.setAttribute('aria-label', 'Social links');
   // GitHub top, Instagram middle, LinkedIn bottom (ascending from corner)
   socialNav.innerHTML = `
-    <a href="#" aria-label="GitHub">${GH_SVG}</a>
-    <a href="#" aria-label="Instagram">${IG_SVG}</a>
+    <a href="https://github.com/sebastian-morris" target="_blank" rel="noopener noreferrer" aria-label="GitHub">${GH_SVG}</a>
+    <a href="https://www.instagram.com/sebastian.morris/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">${IG_SVG}</a>
     <a href="https://linkedin.com/in/sebastian-morris-403538323" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">${LI_SVG}</a>
   `;
   document.body.appendChild(socialNav);
@@ -716,6 +862,89 @@ function initPhoneQr() {
   });
 }
 
+function initFooter() {
+  let footer = document.querySelector('.site-footer');
+  if (!footer) {
+    footer = document.createElement('footer');
+    footer.className = 'site-footer';
+    document.body.appendChild(footer);
+  }
+
+  const base = document.body.dataset.depth === 'project' ? '../' : '';
+
+  const LI_SVG = `<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>`;
+  const IG_SVG = `<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>`;
+  const GH_SVG = `<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>`;
+
+  footer.innerHTML = `
+    <div class="footer-shell">
+      <div class="footer-top">
+        <a href="${base}index.html" class="footer-brand">Sebastian Morris</a>
+        <div class="footer-socials">
+          <a href="https://linkedin.com/in/sebastian-morris-403538323" target="_blank" rel="noopener noreferrer" class="footer-social-icon" aria-label="LinkedIn">${LI_SVG}</a>
+          <a href="https://www.instagram.com/sebastian.morris/" target="_blank" rel="noopener noreferrer" class="footer-social-icon" aria-label="Instagram">${IG_SVG}</a>
+          <a href="https://github.com/sebastian-morris" target="_blank" rel="noopener noreferrer" class="footer-social-icon" aria-label="GitHub">${GH_SVG}</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <nav class="footer-nav" aria-label="Site map">
+          <a href="${base}index.html">Home</a>
+          <a href="${base}experience.html">Experience</a>
+          <a href="${base}projects.html">Projects</a>
+          <a href="${base}index.html#contact">Contact</a>
+        </nav>
+        <span class="footer-copy">&copy; 2025 Sebastian Morris</span>
+      </div>
+    </div>
+  `;
+}
+
+function initLoader() {
+  const loader = document.getElementById('site-loader');
+  if (!loader) return;
+  const pct = document.getElementById('loaderPct');
+  if (!pct) return;
+
+  let imageLoaded = false;
+  let countFinished = false;
+
+  function slideOut() {
+    loader.classList.add('is-done');
+    loader.addEventListener('transitionend', () => loader.remove(), { once: true });
+    initHeroTypewriter();
+  }
+
+  function onComplete() {
+    pct.textContent = '100%';
+    pct.classList.add('is-complete');
+    setTimeout(slideOut, 325); // fire at landing point (65% of 500ms bounce)
+  }
+
+  // Count 0→99 over 1.4s, hold at 99 until image is ready
+  const countDuration = 1400;
+  const startTime = performance.now();
+
+  function tick(now) {
+    const elapsed = now - startTime;
+    const progress = Math.min(elapsed / countDuration, 1);
+    pct.textContent = Math.floor(progress * 99) + '%';
+    if (progress < 1) {
+      requestAnimationFrame(tick);
+    } else {
+      countFinished = true;
+      if (imageLoaded) onComplete();
+    }
+  }
+  requestAnimationFrame(tick);
+
+  const heroImg = new Image();
+  heroImg.onload = heroImg.onerror = () => {
+    imageLoaded = true;
+    if (countFinished) onComplete();
+  };
+  heroImg.src = 'assets/img/img-4572.jpg';
+}
+
 renderProjectGallery();
 initProjectHeroParallax();
 initHeroParallax();
@@ -723,9 +952,8 @@ initExperienceTimeline();
 initEduHeroParallax();
 initCarousel();
 initCapabilities();
+initMobileNav();
 initFixedNav();
+initFooter();
 initPhoneQr();
-prepareRevealText();
-updateRevealText();
-window.addEventListener("scroll", updateRevealText, { passive: true });
-window.addEventListener("resize", updateRevealText);
+initLoader();
